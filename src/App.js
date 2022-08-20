@@ -1,24 +1,29 @@
+import { Column } from 'primereact/column';
+import {DataTable} from 'primereact/datatable';
 import React,{Component} from 'react';
 import './App.css';
 import { PersonaService } from './service/PersonaService';
 
 
+
 export default class App extends Component{
-constructor(){
+ constructor(){
 	super();
 	this.state={};
-	this.personaService = new PersonaService();
+this.personaService = new PersonaService();
 }
-
 componentDidMount(){
-	this.personaService.getAll().then(data =>{
-		console.log(data);
-	})
-}
+this.personaService.getAll().then(data =>this.setState({personas:data}))
+ }
 
 render(){
-	return (
-		<h1>hola mundo</h1>
+ return (
+		<DataTable value={this.state.personas}>
+			<Column field="id" header="ID"></Column>
+			<Column field='nombre' header="Nombre"></Column>
+			<Column field='apellido' header="Apellido"></Column>
+			<Column field='matricula' header="Matricula"></Column>
+		</DataTable>
 	);
 }
 }
