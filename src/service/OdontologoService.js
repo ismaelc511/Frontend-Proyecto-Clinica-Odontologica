@@ -14,6 +14,7 @@ export class OdontologoService{
 	}
 
 	delete(id){
-		return axios.get(this.baseUrl, id).then(res=>res.data);
+		return axios.delete(this.baseUrl+ id)
+        .then(res => res.data);
 	}
 }
