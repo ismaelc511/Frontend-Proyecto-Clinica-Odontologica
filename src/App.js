@@ -1,7 +1,7 @@
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { Component } from 'react';
-import './App.css';
+import './styles/App.css';
 import { OdontologoService } from './service/OdontologoService';
 import { Panel } from 'primereact/panel';
 import { Menubar } from 'primereact/menubar';
