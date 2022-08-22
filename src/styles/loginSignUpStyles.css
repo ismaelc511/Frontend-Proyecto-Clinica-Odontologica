@@ -1,7 +1,7 @@
 @import url('./globalStyles.css');
 
 body {
-    background-image: url('../assets/wallpaper1.jpg');
+    background-image: url('../assets/dental.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -38,14 +38,15 @@ nav img {
     padding: 0 5%;
 }
 
-form {
-    background-color: var(--negro);
+#formas {
+				background-color: var(--negro);
     max-width: 24rem;
     margin: 0 auto;
-    padding: 2rem 3rem;
-    border-radius: 1rem;
+    padding: 8.5rem 3rem;
+    border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
+				color:white;
 }
 
 
@@ -65,9 +66,6 @@ form {
     padding: .2rem 1rem;
 }
 
-form label {
-    margin-bottom: .3rem;
-}
 
 form input {
     border-radius: 100vh;
@@ -76,10 +74,6 @@ form input {
     border: 2px solid var(--app-grey);
 }
 
-form input:focus {
-    outline: none;
-    border: 2px solid var(--lila);
-}
 
 form button{
     background-color: var(--azul);

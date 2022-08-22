@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400&family=Montserrat:wght@400;700&display=swap');
 
 :root {
-  --negro: rgb(83, 83, 83);
+  --negro: rgba(32, 32, 32, 0.699);
   --oscuro: #1c1c1f;
 
   --app-grey: #F2F2F2;

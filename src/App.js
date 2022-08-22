@@ -9,18 +9,22 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-
+import {LogoutButton} from './pages/Logout';
+import {Profile} from './pages/Profile';
 
 
 
 //css
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
-import "primeicons/primeicons.css";                                //icons
+import "primeicons/primeicons.css";
+                           //icons
+
+
+
 
 
 export default class App extends Component {
-
 
 	constructor() {
 		super();
@@ -91,10 +95,13 @@ export default class App extends Component {
 		}
 	}
 
+
 	render() {
 
 		return (
 			<div style={{ width: '80%', margin: '0 auto', marginTop: '20px' }}>
+				<Profile/>
+				<LogoutButton/>
 				<Menubar model={this.items} />
 				<br />
 				<Panel header="Clinica Odontologos" >
