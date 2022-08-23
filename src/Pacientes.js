@@ -1,8 +1,8 @@
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { Component } from 'react';
-import './styles/App.css';
-import { OdontologoService } from './service/OdontologoService';
+
+import { PacienteService } from './service/PacienteService';
 import { Panel } from 'primereact/panel';
 import { Menubar } from 'primereact/menubar';
 import { Dialog } from 'primereact/dialog';
@@ -24,18 +24,18 @@ import "primeicons/primeicons.css";
 
 
 
-export default class App extends Component {
+export default class Pacientes extends Component {
 
 	constructor() {
 		super();
 		this.state = {visible: false,
-			odontologo: {
+			paciente: {
 				id: null,
 				nombre: null,
 				apellido: null,
-				matricula: null
+				dni: null
 			},
-			selectedOdontologo:{}
+			selectedPaciente:{}
 		};
 		this.items = [{
 			label: 'Nuevo',
@@ -53,7 +53,7 @@ export default class App extends Component {
 			command: () => { this.delete() }
 		}
 		];
-		this.odontologoService = new OdontologoService();
+		this.pacienteService = new PacienteService();
 		this.delete= this.delete.bind(this);
 		this.save= this.save.bind(this);
 		this.footer = (
@@ -65,32 +65,32 @@ export default class App extends Component {
 	}
 
 	componentDidMount() {
-		this.odontologoService.getAll().then(data => this.setState({ odontologos: data }))
+		this.pacienteService.getAll().then(data => this.setState({ pacientes: data }))
 	}
 
 
 	save() {
-		this.odontologoService.save(this.state.odontologo).then(data => {
+		this.pacienteService.save(this.state.paciente).then(data => {
 			this.setState({
 				visible:false,
-				odontologo: {
+				paciente: {
 					id: null,
 					nombre: null,
 					apellido: null,
-					matricula: null
+					dni: null
 				}
 			});
 
 			Toast.current.show({severity: 'success', summary: 'guardado', detail: 'guardado con exito'});
-			this.odontologoService.getAll().then(data => this.setState({odontologos: data}))
+			this.pacienteService.getAll().then(data => this.setState({pacientes: data}))
 		} )
 	}
 
 	delete(){
 		if(window.confirm("¿Realmente desea eliminar el registro?")){
-			this.odontologoService.delete(this.state.selectedOdontologo.id).then(data=>{
+			this.pacienteService.delete(this.state.selectedPaciente.id).then(data=>{
 				Toast.current.show({severity: 'success', summary: 'atencion', detail: 'se elimino el registro correctamente'});
-				this.odontologoService.getAll().then(data => this.setState({odontologos: data}))
+				this.pacienteService.getAll().then(data => this.setState({pacientes: data}))
 			})
 		}
 	}
@@ -99,30 +99,32 @@ export default class App extends Component {
 	render() {
 
 		return (
+
 			<div style={{ width: '80%', margin: '0 auto', marginTop: '20px' }}>
 				<Profile/>
 				<LogoutButton/>
 				<Menubar model={this.items} />
 				<br />
 				<Panel header="Clinica Odontologos" >
-					<DataTable value={this.state.odontologos} paginator={true} rows="4" selectionMode="single" selection={this.state.selectedOdontologo} onSelectionChange={e => this.setState({selectedOdontologo: e.value})}>
+					<DataTable value={this.state.pacientes} paginator={true} rows="4" selectionMode="single" selection={this.state.selectedPaciente} onSelectionChange={e => this.setState({selectedPaciente: e.value})}>
 						<Column field="id" header="ID"></Column>
 						<Column field='nombre' header="Nombre"></Column>
 						<Column field='apellido' header="Apellido"></Column>
-						<Column field='matricula' header="Matricula"></Column>
+						<Column field='dni' header="DNI"></Column>
 					</DataTable>
 				</Panel>
-				<Dialog header="Crear odontologo" visible={this.state.visible} style={{ width: '400px' }} footer={this.footer} modal={true} onHide={() => this.setState({ visible: false })}>
+				<Dialog header="Crear paciente" visible={this.state.visible} style={{ width: '400px' }} footer={this.footer} modal={true} onHide={() => this.setState({ visible: false })}>
 					<form id='paciente-form'>
 					<span className="p-float-label">
-						<InputText value={this.state.odontologo.nombre} style={{ width: '100%' }}  id="nombre" onChange={(e) => {
+						<InputText value={this.state.paciente.nombre} style={{ width: '100%' }}  id="nombre" onChange={(e) => {
 							let val = e.target.value;
 							this.setState(prevState => {
 								console.log(val);
-								let odontologo = Object.assign({}, prevState.odontologo)
-								odontologo.nombre = val;
+								console.log(this.state.paciente.nombre);
+								let paciente = Object.assign({}, prevState.paciente)
+								paciente.nombre = val;
 
-								return { odontologo };
+								return { paciente };
 
 							})
 						}} />
@@ -130,25 +132,25 @@ export default class App extends Component {
 					</span>
 					<br />
 					<span className="p-float-label">
-						<InputText value={this.state.odontologo.apellido} style={{ width: '100%' }}  id="apellido" onChange={(e) => this.setState(prevState => {
-							let odontologo = Object.assign({}, prevState.odontologo)
-							odontologo.apellido = e.target.value
+						<InputText value={this.state.paciente.apellido} style={{ width: '100%' }}  id="apellido" onChange={(e) => this.setState(prevState => {
+							let paciente = Object.assign({}, prevState.paciente)
+							paciente.apellido = e.target.value
 
-							return { odontologo };
+							return { paciente };
 
 						})} />
 						<label htmlFor="apellido">Apellido</label>
 					</span>
 					<br />
 					<span className="p-float-label">
-						<InputText value={this.state.odontologo.matricula} style={{ width: '100%' }}  id="matricula" onChange={(e) => this.setState(prevState => {
-							let odontologo = Object.assign({}, prevState.odontologo)
-							odontologo.matricula = e.target.value
+						<InputText value={this.state.paciente.dni} style={{ width: '100%' }}  id="dni" onChange={(e) => this.setState(prevState => {
+							let paciente = Object.assign({}, prevState.paciente)
+							paciente.dni = e.target.value
 
-							return { odontologo };
+							return { paciente };
 
 						})} />
-						<label htmlFor="matricula">Matricula</label>
+						<label htmlFor="dni">dni</label>
 					</span>
 					</form>
 				</Dialog>
@@ -159,24 +161,24 @@ export default class App extends Component {
 	showSaveDialog() {
 		this.setState({
 			visible: true,
-			odontologo:{
+			paciente:{
 			id: null,
 			nombre: null,
 			apellido: null,
-			matricula: null
+			dni: null
 		}
 		});
-		document.getElementById('odontologo-form').reset();
+		document.getElementById('paciente-form').reset();
 	};
 
 	showEditDialog(){
 		this.setState({
 			visible: true,
-			odontologo:{
-				id: this.state.selectedOdontologo.id,
-				nombre: this.state.selectedOdontologo.nombre,
-				apellido: this.state.selectedOdontologo.apellido,
-				matricula: this.state.selectedOdontologo.matricula
+			paciente:{
+				id: this.state.selectedPaciente.id,
+				nombre: this.state.selectedPaciente.nombre,
+				apellido: this.state.selectedPaciente.apellido,
+				dni: this.state.selectedPaciente.dni
 			}
 		})
 	};
