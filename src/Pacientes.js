@@ -105,7 +105,7 @@ export default class Pacientes extends Component {
 				<LogoutButton/>
 				<Menubar model={this.items} />
 				<br />
-				<Panel header="Clinica Odontologos" >
+				<Panel header="Clinica Pacientes" >
 					<DataTable value={this.state.pacientes} paginator={true} rows="4" selectionMode="single" selection={this.state.selectedPaciente} onSelectionChange={e => this.setState({selectedPaciente: e.value})}>
 						<Column field="id" header="ID"></Column>
 						<Column field='nombre' header="Nombre"></Column>
