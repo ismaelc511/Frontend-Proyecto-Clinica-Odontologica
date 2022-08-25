@@ -11,8 +11,8 @@ function RoutesApp(){
 	return(
 		<BrowserRouter>
 			<Routes>
-			<Route path="/Turno" element={<Turno/>} />
 				<Route path="/Pacientes" element={<Pacientes/>} />
+				<Route path="/Turno" element={<Turno/>} />
 				<Route path="/App" element={<App/>} />
 				<Route path="/" element={<Login/>} />
 			</Routes>
