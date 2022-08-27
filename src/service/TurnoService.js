@@ -10,7 +10,7 @@ export  class TurnoService{
 	}
 
 	save(turno){
-		return axios.post(this.baseUrl, turno).then(res=>res.data);
+		return axios.post(this.baseUrl + "guardar", turno).then(res=>res.data);
 	}
 
 	delete(id){

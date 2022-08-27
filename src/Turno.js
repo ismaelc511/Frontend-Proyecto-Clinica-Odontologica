@@ -28,7 +28,7 @@ export default class Turno extends Component {
 	constructor() {
 		super();
 		this.state = {visible: false,
-			turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:null},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null},
+			turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:{ calle:null}},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null},
 			selectedTurno:{}
 		};
 		this.items = [{
@@ -67,7 +67,7 @@ export default class Turno extends Component {
 			console.log(this.turno);
 			this.setState({
 				visible:false,
-				turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:null},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null}
+				turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:{ calle: null}},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null}
 			});
 			Toast.current.show({severity: 'success', summary: 'guardado', detail: 'guardado con exito'});
 			this.turnoService.getAll().then(data => this.setState({turnos: data}))
@@ -132,9 +132,9 @@ export default class Turno extends Component {
 					</span>
 					<br />
 					<span className="p-float-label">
-					<InputText value={this.state.turno.paciente.domicilio} style={{ width: '100%' }}  id="domicilio" onChange={(e) => this.setState(prevState => {
+					<InputText value={this.state.turno.paciente.domicilio.calle} style={{ width: '100%' }}  id="domicilio" onChange={(e) => this.setState(prevState => {
 							let turno = Object.assign({}, prevState.turno)
-							turno.paciente.domicilio = e.target.value
+							turno.paciente.domicilio.calle = e.target.value
 
 							return { turno};
 
@@ -150,7 +150,7 @@ export default class Turno extends Component {
 							return { turno};
 
 						})} />
-						<label htmlFor="odontologoId">odontolgo id</label>
+						<label htmlFor="odontologoId">odontologo id</label>
 					 </span>
 						<br />
 						<span className="p-float-label">
@@ -172,7 +172,7 @@ export default class Turno extends Component {
 	showSaveDialog() {
 		this.setState({
 			visible: true,
-			turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:null},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null}
+			turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:{ calle: null}},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null}
 		});
 		document.getElementById('turno-form').reset();
 	};
@@ -182,15 +182,15 @@ export default class Turno extends Component {
 			visible: true,
 			turno: {
 
-    paciente: {
+    Paciente: {
         id: this.state.turno.paciente.id,
 								nombre: this.state.turno.paciente.nombre,
 								apellido: this.state.turno.paciente.apellido,
 								dni: this.state.turno.paciente.dni,
 								fechaIngreso: this.state.turno.paciente.fechaIngreso,
-								domicilio: this.state.turno.paciente.domicilio
+								domicilio: this.state.turno.paciente.domicilio.calle
     },
-    odontologo: {
+    Odontologo: {
         id: this.state.turno.odontologo.id,
 								matricula: this.state.turno.odontologo.matricula,
 								nombre: this.state.turno.odontologo.nombre,
