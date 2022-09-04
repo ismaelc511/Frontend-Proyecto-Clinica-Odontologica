@@ -5,12 +5,18 @@ import axios from "axios";
 export  class TurnoService{
 		baseUrl = "http://localhost:8081/turnos/";
 
+
+
+
 	getAll(){
 		return axios.get(this.baseUrl).then(res=>res.data);
 	}
 
+
 	save(turno){
-		return axios.post(this.baseUrl + "guardar", turno).then(res=>res.data);
+		return axios.post(this.baseUrl + "guardar", turno).then(function(res){
+
+		});
 	}
 
 	delete(id){

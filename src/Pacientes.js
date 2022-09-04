@@ -33,7 +33,8 @@ export default class Pacientes extends Component {
 				id: null,
 				nombre: null,
 				apellido: null,
-				dni: null
+				dni: null,
+				domicilio:null
 			},
 			selectedPaciente:{}
 		};
@@ -77,7 +78,8 @@ export default class Pacientes extends Component {
 					id: null,
 					nombre: null,
 					apellido: null,
-					dni: null
+					dni: null,
+					domicilio:null
 				}
 			});
 
@@ -111,6 +113,8 @@ export default class Pacientes extends Component {
 						<Column field='nombre' header="Nombre"></Column>
 						<Column field='apellido' header="Apellido"></Column>
 						<Column field='dni' header="DNI"></Column>
+						<Column field='domicilio' header="Domicilio"></Column>
+
 					</DataTable>
 				</Panel>
 				<Dialog header="Crear paciente" visible={this.state.visible} style={{ width: '400px' }} footer={this.footer} modal={true} onHide={() => this.setState({ visible: false })}>
@@ -152,6 +156,17 @@ export default class Pacientes extends Component {
 						})} />
 						<label htmlFor="dni">dni</label>
 					</span>
+					<br />
+					<span className="p-float-label">
+					<InputText value={this.state.paciente.domicilio} style={{ width: '100%' }}  id="domicilio" onChange={(e) => this.setState(prevState => {
+							let paciente = Object.assign({}, prevState.paciente)
+							paciente.domicilio = e.target.value
+
+							return { paciente };
+
+						})} />
+						<label htmlFor="domicilio">domicilio</label>
+					</span>
 					</form>
 				</Dialog>
 				<Toast ref={Toast} />
@@ -165,7 +180,8 @@ export default class Pacientes extends Component {
 			id: null,
 			nombre: null,
 			apellido: null,
-			dni: null
+			dni: null,
+			domicilio:null
 		}
 		});
 		document.getElementById('paciente-form').reset();
@@ -178,7 +194,8 @@ export default class Pacientes extends Component {
 				id: this.state.selectedPaciente.id,
 				nombre: this.state.selectedPaciente.nombre,
 				apellido: this.state.selectedPaciente.apellido,
-				dni: this.state.selectedPaciente.dni
+				dni: this.state.selectedPaciente.dni,
+				domicilio: this.state.selectedPaciente.domicilio
 			}
 		})
 	};

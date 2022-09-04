@@ -13,6 +13,7 @@ import {Profile} from './pages/Profile';
 
 
 
+
 //css
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
@@ -28,7 +29,18 @@ export default class Turno extends Component {
 	constructor() {
 		super();
 		this.state = {visible: false,
-			turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:{ calle:null}},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null},
+			turno:
+			{
+				paciente:
+				{
+						id:null
+				},
+				odontologo:
+				{
+					id:null
+				},
+				fecha:null
+			},
 			selectedTurno:{}
 		};
 		this.items = [{
@@ -64,18 +76,20 @@ export default class Turno extends Component {
 
 	save() {
 		this.turnoService.save(this.state.turno).then(data => {
-			console.log(this.turno);
 			this.setState({
 				visible:false,
-				turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:{ calle: null}},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null}
+				turno: {paciente:{id:null},odontologo:{id:null},fecha:"2022-08-20"}
 			});
 			Toast.current.show({severity: 'success', summary: 'guardado', detail: 'guardado con exito'});
-			this.turnoService.getAll().then(data => this.setState({turnos: data}))
+			console.log(data)
 		})
+		this.turnoService.getAll().then(data => this.setState({turnos: data}))
 	}
 
+
+
 	delete(){
-		if(window.confirm("¿Realmente desea eliminar el registro?")){
+		if(window.confirm("Â¿Realmente desea eliminar el registro?")){
 			this.turnoService.delete(this.state.selectedTurno.id).then(data=>{
 				Toast.current.show({severity: 'success', summary: 'atencion', detail: 'se elimino el registro correctamente'});
 				this.turnoService.getAll().then(data => this.setState({turnos: data}))
@@ -94,58 +108,40 @@ export default class Turno extends Component {
 				<Menubar model={this.items} />
 				<br />
 				<Panel header="Clinica turnos" >
-					<DataTable value={this.state.turnos} paginator={true} rows="4" selectionMode="single" selection={this.state.turno} onSelectionChange={e => this.setState({selectedTurno: e.value})}>
+					<DataTable value={this.state.turnos} paginator={true} rows="4" selectionMode="single" selection={this.state.selectedTurno} onSelectionChange={e => this.setState({selectedTurno: e.value})}>
 						<Column field="id" header="ID"></Column>
-						<Column field='idPaciente' header="Id Paciente"></Column>
-						<Column field='fechaIngreso' header="Fecha Ingreso"></Column>
-						<Column field='domicilio' header="Domicilio"></Column>
-						<Column field='idOdoontologo' header="Id Odoontologo"></Column>
-						<Column field='fecha' header="Fecha"></Column>
+						<Column field="paciente.id" header="Id Paciente"></Column>
+						<Column field="paciente.nombre" header="Nombre paciente"></Column>
+						<Column field='odontologo.id' header="Id Odontologo"></Column>
+						<Column field="odontologo.nombre" header="Nombre odontologo"></Column>
+						<Column field='paciente.fechaIngreso' header="Fecha"></Column>
 
 					</DataTable>
 				</Panel>
 				<Dialog header="Crear turno" visible={this.state.visible} style={{ width: '400px' }} footer={this.footer} modal={true} onHide={() => this.setState({ visible: false })}>
 					<form id='turno-form'>
-
-
 					<br />
 					<span className="p-float-label">
 						<InputText value={this.state.turno.paciente.id} style={{ width: '100%' }}  id="idPaciente" onChange={(e) => this.setState(prevState => {
 							let turno = Object.assign({}, prevState.turno)
+							console.log(prevState);
+							console.log(e);
+							console.log(e.target);
+							console.log(e.target.value);
+
+
 							turno.paciente.id = e.target.value
-
 							return { turno};
 
 						})} />
-						<label htmlFor="idPaciente">id paciente</label>
+						<label htmlFor="idPaciente">Id Paciente</label>
 					</span>
-					<br />
-					<span className="p-float-label">
-						<InputText value={this.state.turno.paciente.fechaIngreso} style={{ width: '100%' }}  id="fechaIngreso" onChange={(e) => this.setState(prevState => {
-									let turno = Object.assign({}, prevState.turno)
-									turno.paciente.fechaIngreso = e.target.value
-
-									return { turno};
-
-						})} />
-						<label htmlFor="fechaIngreso">FechaIngreso</label>
-					</span>
-					<br />
-					<span className="p-float-label">
-					<InputText value={this.state.turno.paciente.domicilio.calle} style={{ width: '100%' }}  id="domicilio" onChange={(e) => this.setState(prevState => {
-							let turno = Object.assign({}, prevState.turno)
-							turno.paciente.domicilio.calle = e.target.value
-
-							return { turno};
-
-						})} />
-						<label htmlFor="domicilio">Domicilio paciente</label>
-						</span>
 					<br />
 					<span className="p-float-label">
 					<InputText value={this.state.turno.odontologo.id} style={{ width: '100%' }}  id="odontologoId" onChange={(e) => this.setState(prevState => {
 							let turno = Object.assign({}, prevState.turno)
 							turno.odontologo.id = e.target.value
+							console.log(this.state.turno.odontologo.id);
 
 							return { turno};
 
@@ -153,16 +149,6 @@ export default class Turno extends Component {
 						<label htmlFor="odontologoId">odontologo id</label>
 					 </span>
 						<br />
-						<span className="p-float-label">
-					<InputText value={this.state.turno.fecha} style={{ width: '100%' }}  id="turno" onChange={(e) => this.setState(prevState => {
-							let turno = Object.assign({}, prevState.turno)
-							turno.fecha = e.target.value
-
-							return { turno};
-
-						})} />
-						<label htmlFor="fecha">fecha</label>
-					 </span>
 					</form>
 				</Dialog>
 				<Toast ref={Toast} />
@@ -172,7 +158,7 @@ export default class Turno extends Component {
 	showSaveDialog() {
 		this.setState({
 			visible: true,
-			turno: {paciente:{id:null,nombre:null,apellido:null,dni:null,fechaIngreso:null,domicilio:{ calle: null}},odontologo:{id:null,matricula:null,nombre:null,apellido:null},fecha:null}
+			turno: {paciente:{id:null},odontologo:{id:null},fecha:null}
 		});
 		document.getElementById('turno-form').reset();
 	};
@@ -181,25 +167,16 @@ export default class Turno extends Component {
 		this.setState({
 			visible: true,
 			turno: {
-
-    Paciente: {
-        id: this.state.turno.paciente.id,
-								nombre: this.state.turno.paciente.nombre,
-								apellido: this.state.turno.paciente.apellido,
-								dni: this.state.turno.paciente.dni,
-								fechaIngreso: this.state.turno.paciente.fechaIngreso,
-								domicilio: this.state.turno.paciente.domicilio.calle
+    paciente: {
+        id: this.state.selectedTurno.paciente.id
     },
-    Odontologo: {
-        id: this.state.turno.odontologo.id,
-								matricula: this.state.turno.odontologo.matricula,
-								nombre: this.state.turno.odontologo.nombre,
-								apellido: this.state.turno.odontologo.apellido,
-    },
-    fecha: this.state.turno.fecha
+    odontologo: {
+        id: this.state.selectedTurno.odontologo.id
+    }
 }
 		})
 		console.log(this.turno);
+
 	};
 
 }
